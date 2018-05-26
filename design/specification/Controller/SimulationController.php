@@ -16,7 +16,7 @@ class SimulationController
     const SALARY = 2000;
     const CONTRIBUTION = 3000;
 
-    protected function simulated()
+    protected function simulate()
     {
         $client = new Client();
         $simulationHandler = new SimulationHandler();
