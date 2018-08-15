@@ -1,0 +1,40 @@
+#!/bin/sh
+  
+# Restore
+HOST_PARIS="paris"
+HOST_LONDON="london"
+HOST_NEW_YORK="new_york"
+ 
+USER_PARIS="tchoulom"
+USER_LONDON="london"
+USER_NEW_YORK="new_york"
+PASSWORD_PARIS="password_paris"
+PASSWORD_LONDON="password_london"
+PASSWORD_NEW_YORK="password_new_york"
+ 
+RESTORE_SSH_FILE="restore.sh"
+BACKUP_FOLDER="/home/backup"
+ 
+DUMP_ZIP_PARIS="dump_paris.sql.gz"
+DUMP_ZIP_LONDON="dump_london.sql.gz"
+DUMP_ZIP_NEW_YORK="dump_new_york.sql.gz"
+DUMP_SQL_PARIS="dump_paris.sql"
+DUMP_SQL_LONDON="dump_london.sql"
+DUMP_SQL_NEW_YORK="dump_new_york.sql"
+ 
+# Dézippe
+zcat ${BACKUP_FOLDER}/${DUMP_ZIP_PARIS} > ${DUMP_SQL_PARIS}
+zcat ${BACKUP_FOLDER}/${DUMP_ZIP_LONDON} > ${DUMP_SQL_LONDON}
+zcat ${BACKUP_FOLDER}/${DUMP_ZIP_NEW_YORK} > ${DUMP_SQL_NEW_YORK}
+ 
+# Paris
+scp ${BACKUP_FOLDER}/${DUMP_SQL_PARIS} ${USER_PARIS}@${HOST_PARIS}:${DUMP_FOLDER}
+ssh ${USER_PARIS}:${PASSWORD_PARIS}@${HOST_PARIS} ${DUMP_FOLDER}/${RESTORE_SSH_FILE}
+ 
+# London
+scp ${BACKUP_FOLDER}/${DUMP_SQL_LONDON} ${USER_LONDON}@${HOST_LONDON}:${DUMP_FOLDER}
+ssh ${USER_LONDON}:${PASSWORD_LONDON}@${HOST_LONDON} ${DUMP_FOLDER}/${RESTORE_SSH_FILE}
+ 
+# New york
+scp ${BACKUP_FOLDER}/${DUMP_SQL_NEW_YORK} ${USER_NEW_YORK}@${HOST_NEW_YORK}:${DUMP_FOLDER}
+ssh ${USER_NEW_YORK}:${PASSWORD_NEW_YORK}@${HOST_NEW_YORK} ${DUMP_FOLDER}/${RESTORE_SSH_FILE}
